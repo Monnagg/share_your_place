@@ -1,0 +1,10 @@
+{
+    "env":{
+        "DB_USER":"monnahi521",
+        "DB_PASSWORD":"JjFmHCM3PQz4vjyq",
+        "DB_NAME":"places",
+        "GOOGLE_API_KEY":"AIzaSyB1zDFJe81H-rHhQHmOhi-IhUcnCzl3HPM",
+        "JWT_KEY":"supersecret_dont_share"
+    }
+}
+
