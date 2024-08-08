@@ -53,7 +53,7 @@ app.use((error, req, res, next) => {
 const url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.646ehx5.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`;
 //  const url = `mongodb+srv://monnahi521:JjFmHCM3PQz4vjyq@cluster0.646ehx5.mongodb.net/places?retryWrites=true&w=majority&appName=Cluster0`;
 mongoose.connect(url).then(()=>{
-    app.listen(4000);
+    app.listen(process.env.PORT || 4000);
     console.log('Connected to MongoDB')
 }).catch(err=>{
     console.log(err);
