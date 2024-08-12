@@ -100,7 +100,7 @@ const PlaceItem = (props) => {
             )}
 
             {auth.userId === props.creatorId && (
-              <Button danger onClick={showDeleteWarningHandler}>
+              <Button severity="help" onClick={showDeleteWarningHandler}>
                 DELETE
               </Button>
             )}

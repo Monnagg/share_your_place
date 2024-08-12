@@ -3,7 +3,7 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import Card from "../../shared/components/UIElements/Card";
 import Input from "../../shared/components/FormElements/Input";
-import Button from "../../shared/components/FormElements/Button";
+ import MyButton from "../../shared/components/FormElements/Button";
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
@@ -14,6 +14,10 @@ import { AuthContext } from "../../shared/context/auth-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 import "./Auth.css";
+import { InputText } from 'primereact/inputtext';
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+
+        
 
 const Auth = () => {
   const auth = useContext(AuthContext);
@@ -97,11 +101,20 @@ const Auth = () => {
         auth.login(responseData.userId, responseData.token);
       } catch (err) {}
     }
+    if(!!error){
+      confirmDialog({
+        message: error,
+        header: 'An Error Occurred!',
+        icon: 'pi pi-info-circle',
+        defaultFocus: 'reject',
+        
+    });
+    }
   };
 
   return (
     <React.Fragment>
-      <ErrorModal error={error} onClear={clearError} />
+      <ConfirmDialog error={error} onClear={clearError} />
       <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>Login Required</h2>
@@ -144,13 +157,14 @@ const Auth = () => {
             errorText="Please enter a valid password, at least 5 characters."
             onInput={inputHandler}
           />
-          <Button type="submit" disabled={!formState.isValid}>
+          <MyButton type="submit" disabled={!formState.isValid} >
             {isLoginMode ? "LOGIN" : "SIGNUP"}
-          </Button>
+          </MyButton>
         </form>
-        <Button inverse onClick={switchModeHandler}>
+        <MyButton  onClick={switchModeHandler} severity="success" >
           SWITCH TO {isLoginMode ? "SIGNUP" : "LOGIN"}
-        </Button>
+        </MyButton>
+        
       </Card>
     </React.Fragment>
   );

@@ -1,5 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
 
+import { InputText } from 'primereact/inputtext';
+        
 import { validate } from '../../util/validators';
 import './Input.css';
 
