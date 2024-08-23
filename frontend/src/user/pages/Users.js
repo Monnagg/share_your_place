@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import UsersList from "../components/UsersList";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-import { useHttpClient } from "../../shared/hooks/http-hook";
+
+import { ProgressSpinner } from 'primereact/progressspinner';
+        import { useHttpClient } from "../../shared/hooks/http-hook";
 
 const Users = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -35,7 +36,7 @@ const Users = () => {
       <ErrorModal error={error} onClear={clearError} />
       {isLoading && (
         <div className="center">
-          <LoadingSpinner />
+          <ProgressSpinner />
         </div>
       )}
       {!isLoading && loadedUsers && <UsersList items={loadedUsers} />}

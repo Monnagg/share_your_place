@@ -6,16 +6,12 @@ import {
   Switch,
 } from "react-router-dom";
 import React, { Suspense } from "react";
-// import Users from "./user/pages/Users";
-// import NewPlace from "./places/pages/NewPlace";
-import MainNavigation from "./shared/components/Navigation/MainNavigation";
-// import UserPlaces from "./places/pages/UserPlaces";
-// import UpdatePlace from "./places/pages/UpdatePlace";
-// import Auth from "./user/pages/Auth";
+
 import { AuthContext } from "./shared/context/auth-context";
 import { useAuth } from "./shared/hooks/auth-hook";
-import LoadingSpinner from "./shared/components/UIElements/LoadingSpinner";
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { PrimeReactProvider } from "primereact/api";
+import NavigationBar from "./shared/components/Navigation/NavgationBar";
 
 const Users = React.lazy(() => import("./user/pages/Users"));
 const NewPlace = React.lazy(() => import("./places/pages/NewPlace"));
@@ -75,12 +71,12 @@ const App = () => {
     >
       <PrimeReactProvider>
         <Router>
-          <MainNavigation />
+          <NavigationBar />
           <main>
             <Suspense
               fallback={
                 <div className="center">
-                  <LoadingSpinner />
+                  <ProgressSpinner />
                 </div>
               }
             >

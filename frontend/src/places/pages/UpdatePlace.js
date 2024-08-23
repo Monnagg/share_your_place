@@ -4,7 +4,8 @@ import { useParams, useHistory } from "react-router-dom";
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
 import Card from "../../shared/components/UIElements/Card";
-import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+
+import { ProgressSpinner } from "primereact/progressspinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import {
   VALIDATOR_REQUIRE,
@@ -86,7 +87,7 @@ const UpdatePlace = () => {
   if (isLoading) {
     return (
       <div className="center">
-        <LoadingSpinner />
+        <ProgressSpinner />
       </div>
     );
   }

@@ -18,8 +18,11 @@ export default function NavigationBar() {
     const history = useHistory();
 
 
-
-  const items = [
+    const handleAuthClick = () => {
+        // 使用 history.push 导航到指定路径
+        history.push("/auth");
+      };
+  const itemsLogged = [
     {
       label: "All Users",
       icon: "pi pi-home",
@@ -37,7 +40,20 @@ export default function NavigationBar() {
     {
       label: "Add Place",
       icon: "pi pi-search",
+      command: () => {
+        history.push(`/places/new`);
+    }
     },
+  ];
+  const itemsNotLogged = [
+    {
+      label: "All Users",
+      icon: "pi pi-home",
+      command: () => {
+        history.push('/');
+    }
+    },
+   
   ];
 
   //  const start = ;
@@ -50,14 +66,14 @@ export default function NavigationBar() {
   const end = (
     
     <div className="flex align-items-center gap-2">
-      {auth.isLoggedIn && <Button label="LOGOUT" severity="info" />}
-      {!auth.isLoggedIn && <Button label="AUTHENTICATE" severity="info" />}
+      {auth.isLoggedIn && <Button label="LOGOUT" severity="info" onClick={auth.logout} />}
+      {!auth.isLoggedIn && <Button label="AUTHENTICATE" severity="info" onClick={handleAuthClick}/>}
     </div>
   );
 
   return (
     <div className="card">
-      <Menubar model={items} start={start} end={end} />
+      <Menubar model={auth.isLoggedIn?itemsLogged:itemsNotLogged} start={start} end={end} />
     </div>
   );
 }

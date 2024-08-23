@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-import Card from "../../shared/components/UIElements/Card";
+
+import { ProgressSpinner } from 'primereact/progressspinner';
+        import Card from "../../shared/components/UIElements/Card";
 import Input from "../../shared/components/FormElements/Input";
  import MyButton from "../../shared/components/FormElements/Button";
 import {
@@ -115,8 +116,8 @@ const Auth = () => {
   return (
     <React.Fragment>
       <ConfirmDialog error={error} onClear={clearError} />
-      <Card className="authentication">
-        {isLoading && <LoadingSpinner asOverlay />}
+      <Card className="authentication" >
+        {isLoading && <ProgressSpinner  />}
         <h2>Login Required</h2>
         <hr />
         <form onSubmit={authSubmitHandler}>

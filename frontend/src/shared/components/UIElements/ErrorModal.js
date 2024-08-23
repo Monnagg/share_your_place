@@ -4,8 +4,7 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 // import Button from '../FormElements/Button';
 
 const ErrorModal = props => {
-  console.log(!!props.error);
-  console.log(props.error);
+  
 
   useEffect(()=>{
     if(!!props.error){
@@ -39,10 +38,3 @@ const ErrorModal = props => {
 
 export default ErrorModal;
 
-// import React from "react";
-// import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-// import { Button } from "primereact/button";
-
-// export default function ErrorModal() {
-//   return <ConfirmDialog group="templating" />;
-// }

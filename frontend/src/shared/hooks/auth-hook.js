@@ -54,6 +54,7 @@ export const useAuth = ()=>{
         new Date(storedData.expiration) > new Date()
       ) {
         // 如果条件成立，则调用 login 函数，传入用户 ID、token 和过期时间
+        console.log(storedData.token);
         login(storedData.userId, storedData.token, new Date(storedData.expiration));
       }
     }, [login]); // 依赖项：login，当 login 函数发生变化时，重新执行 useEffect

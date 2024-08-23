@@ -1,35 +1,39 @@
 import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { Dialog } from "primereact/dialog";
 
 import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
-import Modal from "../../shared/components/UIElements/Modal";
 import Map from "../../shared/components/UIElements/Map";
-import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { AuthContext } from "../../shared/context/auth-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import "./PlaceItem.css";
 
 const PlaceItem = (props) => {
+  const history = useHistory();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
   const [showMap, setShowMap] = useState(false);
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const openMapHandler = () => setShowMap(true);
 
-  const closeMapHandler = () => setShowMap(false);
 
   const showDeleteWarningHandler = () => {
-    setShowConfirmModal(true);
-  };
-
-  const cancelDeleteHandler = () => {
-    setShowConfirmModal(false);
+    confirmDialog({
+      message:
+        "Do you want to proceed and delete this place? Please note that it can't be undone thereafter.",
+      header: "Are you sure?",
+      icon: "pi pi-exclamation-triangle",
+      defaultFocus: "accept",
+      accept: confirmDeleteHandler,
+      acceptLabel: "DELETE",
+      rejectLabel: "CANCEL",
+    });
   };
 
   const confirmDeleteHandler = async () => {
-    setShowConfirmModal(false);
     try {
       await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}/places/${props.id}`,
@@ -40,46 +44,41 @@ const PlaceItem = (props) => {
       props.onDelete(props.id);
     } catch (err) {}
   };
+  const handleEditClick = () => {
+    // 使用 history.push 导航到指定路径
+    history.push(`/places/${props.id}`);
+  };
+  const footerContent = (
+    <div>
+      <Button
+        onClick={() => setShowMap(false)}
+        autoFocus
+      >
+        CLOSE
+      </Button>
+    </div>
+  );
 
   return (
     <React.Fragment>
-      <ErrorModal error={error} onClear={clearError} />
-      <Modal
-        show={showMap}
-        onCancel={closeMapHandler}
+      <Dialog
         header={props.address}
-        contentClass="place-item__modal-content"
-        footerClass="place-item__modal-actions"
-        footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
+        visible={showMap}
+        style={{ width: "50vw" }}
+        onHide={() => {
+          if (!showMap) return;
+          setShowMap(false);
+        }}
+        footer={footerContent}
       >
         <div className="map-container">
           <Map center={props.coordinates} zoom={16} />
         </div>
-      </Modal>
-      <Modal
-        show={showConfirmModal}
-        onCancel={cancelDeleteHandler}
-        header="Are you sure?"
-        footerClass="place-item__modal-actions"
-        footer={
-          <React.Fragment>
-            <Button inverse onClick={cancelDeleteHandler}>
-              CANCEL
-            </Button>
-            <Button danger onClick={confirmDeleteHandler}>
-              DELETE
-            </Button>
-          </React.Fragment>
-        }
-      >
-        <p>
-          Do you want to proceed and delete this place? Please note that it
-          can't be undone thereafter.
-        </p>
-      </Modal>
+      </Dialog>
+
       <li className="place-item">
         <Card className="place-item__content">
-          {isLoading && <LoadingSpinner asOverlay />}
+          {isLoading && <ProgressSpinner />}
           <div className="place-item__image">
             <img
               src={`${process.env.REACT_APP_ASSET_URL}/${props.image}`}
@@ -96,7 +95,9 @@ const PlaceItem = (props) => {
               VIEW ON MAP
             </Button>
             {auth.userId === props.creatorId && (
-              <Button to={`/places/${props.id}`}>EDIT</Button>
+              <Button onClick={handleEditClick} severity="danger">
+                EDIT
+              </Button>
             )}
 
             {auth.userId === props.creatorId && (
